@@ -1,8 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
+import { LocationContext } from './LocationProvider';
 
-const Result = ({selectedCity, setSelectedCity, selectedState, setSelectedState}) => {
-  
+const Result = () => {
+  const {selectedCity, setSelectedCity, selectedState, setSelectedState}=useContext(LocationContext)
+
   const [cityData, setCityData]=useState([]);
   const [stateData, setStateData]=useState([]);
   const [medicalCentre, setMedicalCentre]=useState([])
@@ -90,7 +92,12 @@ const Result = ({selectedCity, setSelectedCity, selectedState, setSelectedState}
 
                 {
                     medicalCentre.length>0 ? medicalCentre.map((data)=>(
-                        <p>{data.Address}</p>
+                        <Fragment>
+                            
+                            <p>{data.Address}</p>
+                            <button onClick={}></button>
+                        </Fragment>
+                        
                     )) : <p>not found</p>
                 }
             </div>

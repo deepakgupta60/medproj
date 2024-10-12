@@ -1,8 +1,11 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { LocationContext } from './LocationProvider'
 
-const Home = ({ selectedCity, setSelectedCity, selectedState, setSelectedState }) => {
+const Home = () => {
+
+    const {selectedCity, setSelectedCity, selectedState, setSelectedState}=useContext(LocationContext);
 
     const [stateData, setStateData] = useState([])
     const [cityData, setCityData] = useState([])

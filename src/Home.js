@@ -24,6 +24,20 @@ const Home = ({ selectedCity, setSelectedCity, selectedState, setSelectedState }
     }, [selectedState])
 
 
+    const handleStateChange=(e)=>{
+        const selectState = e.target.value;
+        setSelectedState(selectState)
+        localStorage.setItem("state", selectState)
+    }
+
+
+    const handleCityChange=(e)=>
+    {
+        let selectCity = e.target.value;
+        setSelectedCity(selectCity)
+        localStorage.setItem("city", selectCity)
+    }
+
     const handleSearch=()=>{
         navigate("/result")
     }
@@ -33,14 +47,14 @@ const Home = ({ selectedCity, setSelectedCity, selectedState, setSelectedState }
             <div>
                
 
-                <select value={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
+                <select value={selectedState} onChange={handleStateChange}>
                     <option value={""}>Select State</option>
                     {stateData.length > 0 ? stateData.map((data, idx) => (
                         <option key={idx} value={data}>{data}</option>
                     )) : <option>No Found State</option>
                     }
                 </select>
-                <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
+                <select value={selectedCity} onChange={handleCityChange}>
 
                     <option value={""}>Select City</option>
                     {cityData.length > 0 ? cityData.map((data, idx) => (

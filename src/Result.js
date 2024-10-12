@@ -5,7 +5,8 @@ const Result = ({selectedCity, setSelectedCity, selectedState, setSelectedState}
   
   const [cityData, setCityData]=useState([]);
   const [stateData, setStateData]=useState([]);
-  
+  const [medicalCentre, setMedicalCentre]=useState([])
+
   useEffect(()=>{
     
     axios.get('https://meddata-backend.onrender.com/states').then((response)=>setStateData(response.data)).catch((err)=>console.log("Error Fetching while"))
@@ -22,29 +23,41 @@ const Result = ({selectedCity, setSelectedCity, selectedState, setSelectedState}
 
 
   useEffect(()=>{
+    if(selectedState && selectedCity)
+    {
+        fetchMedicalCentre(selectedState, selectedCity)
+    }
+  },[selectedCity, selectedState])
 
-  },[])
-
-  const fetchMedicalCentre = ()=>{
-    
+  const fetchMedicalCentre = (state, city)=>{
+        axios.get(`https://meddata-backend.onrender.com/data?state=${state}&city=${city}`).then((response)=>setMedicalCentre(response.data)).catch((err)=>console.log("Error Fetching Erro: ", err))
   }
 
 
   const handleStateChange=(e)=>{
     const selectState = e.target.value;
-    setSelectedState(selectState)
-    setSelectedCity('')
 
+    setSelectedState(selectState)
+    localStorage.setItem("state", selectState)
+    setSelectedCity('')
+    setMedicalCentre([])
   }
 
 
   const handleCityChange=(e)=>{
     const selectCity = e.target.value;
+    localStorage.setItem("city", selectCity)
     setSelectedCity(selectCity)
 
   }
 
 
+  const handleSearch=()=>{
+   if(selectedState && selectedCity)
+    {
+        fetchMedicalCentre(selectedState, selectedCity)
+    } 
+  }
 
     return (
     <>
@@ -67,9 +80,20 @@ const Result = ({selectedCity, setSelectedCity, selectedState, setSelectedState}
                     <option key={idx} value={data}>{data}</option>
                 )) : <option>No City Found</option>
             }
-            <option></option>
         </select>
+            <br/>
 
+            <button onClick={handleSearch}>Search</button>
+
+
+            <div>
+
+                {
+                    medicalCentre.length>0 ? medicalCentre.map((data)=>(
+                        <p>{data.Address}</p>
+                    )) : <p>not found</p>
+                }
+            </div>
     </div>
     </>
   )

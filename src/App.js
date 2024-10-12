@@ -5,8 +5,14 @@ import Home from './Home';
 import Result from './Result';
 
 function App() {
-  const [selectedState,setSelectedState]=useState('');
-  const [selectedCity,setSelectedCity]=useState('');
+  const [selectedState,setSelectedState]=useState(()=>{
+    const selectState = localStorage.getItem("state");
+    return selectState || ''
+  });
+  const [selectedCity,setSelectedCity]=useState(()=>{
+    const selectCity = localStorage.getItem("city");
+    return selectCity || ''
+  });
   
   return (
       
